@@ -13,6 +13,13 @@ class Category(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = 'Категорія'
+        verbose_name_plural = 'Категорії'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
 
 
 class Product(models.Model):
@@ -32,3 +39,11 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товари'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title}"
