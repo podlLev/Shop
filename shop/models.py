@@ -13,6 +13,9 @@ class Category(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def active_products_count(self):
+        return self.products.filter(is_active=True).count()
+
     class Meta:
         verbose_name = 'Категорія'
         verbose_name_plural = 'Категорії'
