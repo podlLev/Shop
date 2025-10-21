@@ -18,6 +18,18 @@
                     </div>
                 {% endif %}
 
+                {% if product.image %}
+                    <img src="{{ product.image.url }}"
+                         class="card-img-top rounded-top-4 mb-2"
+                         alt="{{ product.title }}"
+                         style="height: 200px; object-fit: contain;">
+                {% else %}
+                    <img src="{% static 'shop/images/no-image.png' %}"
+                         class="card-img-top rounded-top-4 mb-2"
+                         alt="No image"
+                         style="height: 200px; object-fit: contain;">
+                {% endif %}
+
                 <h5 class="card-title fw-bold text-dark mb-2 text-center">{{ product.title }}</h5>
 
                 <p class="card-text text-muted mb-3">{{ product.description|truncatechars:100 }}</p>

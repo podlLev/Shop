@@ -39,6 +39,12 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name='products'
     )
+    image = models.ImageField(
+        upload_to='products/',
+        blank=True,
+        null=True,
+        verbose_name='Product Image'
+    )
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
