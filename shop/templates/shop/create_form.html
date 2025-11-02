@@ -1,0 +1,73 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Add {{ model_name|capfirst }} | My Shop{% endblock %}
+
+{% block content %}
+<h1 class="text-center mt-3 mb-5 fw-bold text-dark">
+    Add {{ model_name|capfirst }}
+</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+        <div class="card shadow-lg rounded-4 border-0">
+            <div class="card-body p-5">
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        {% if field.field.widget.input_type == "checkbox" %}
+                        <div class="form-check form-switch mb-3 d-flex align-items-center">
+                            {{ field }}
+                            <label class="form-check-label fw-semibold fs-5 text-dark ms-3 text-capitalize">
+                                {{ field.label }}
+                            </label>
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1 w-100">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold fs-5 text-dark text-capitalize">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if form.image and form.image.value %}
+                        <div class="mb-4 text-center">
+                            <img src="{{ form.image.value.url }}" class="img-thumbnail rounded-3" style="max-height: 200px;">
+                        </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url model_name|add:'_list' %}" class="btn btn-outline-secondary fw-bold px-4">Back</a>
+                        <button type="submit" class="btn btn-primary fw-bold px-4 text-uppercase shadow-sm">
+                            Save {{ model_name|capfirst }}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

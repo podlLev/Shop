@@ -4,7 +4,13 @@
 {% block title %}{{ page_title }} | My Shop{% endblock %}
 
 {% block content %}
-<h1 class="text-center mt-2 mb-5 fw-bold text-dark">{{ page_title }}</h1>
+<h1 class="text-center mt-2 mb-3 fw-bold text-dark">{{ page_title }}</h1>
+
+<div class="mb-4">
+    <a href="{% url 'category_create' %}" class="btn btn-success fw-bold px-4 py-2 text-uppercase shadow-sm">
+        <i class="fa fa-plus me-2"></i> Add Category
+    </a>
+</div>
 
 <div class="row g-4">
     {% for category in categories %}

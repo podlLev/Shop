@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
+
+from .forms import ProductForm, CategoryForm
 from .models import Category, Product
 
 def index(request):
@@ -34,6 +37,7 @@ class ProductListView(ListView):
     def get_queryset(self):
         return Product.objects.filter(is_active=True)
 
+
 class ProductListByCategoryView(ListView):
     model = Product
     template_name = 'shop/products.html'
@@ -49,4 +53,28 @@ class ProductListByCategoryView(ListView):
         slug = self.kwargs.get('slug')
         context['category'] = Category.objects.filter(slug=slug).first()
         context['page_title'] = context['category'].title if context['category'] else 'Products'
+        return context
+
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'shop/create_form.html'
+    success_url = reverse_lazy('category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'category'
+        return context
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'shop/create_form.html'
+    success_url = reverse_lazy('product_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'product'
         return context
