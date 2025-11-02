@@ -1,0 +1,62 @@
+.category-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.1);
+}
+
+.category-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222;
+}
+
+.category-description {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.param-card {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.param-label {
+    font-weight: 600;
+    color: #444;
+    font-size: 1.1rem;
+}
+
+.param-value {
+    font-weight: 600;
+    color: #000;
+    font-size: 1.1rem;
+}
+
+.category-btn {
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+}
+
+.active-products-badge {
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+}
+
+.price-range-label, .avg-price-label, .avg-qty-label {
+    font-weight: 600;
+    color: #444;
+    font-size: 1.2rem;
+}
+
+.price-range-value, .avg-price-value, .avg-qty-value {
+    font-weight: 600;
+    color: #000;
+    font-size: 1.2rem;
+}

@@ -1,6 +1,7 @@
+from django.db.models import Min, Max, Avg
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 
 from .forms import ProductForm, CategoryForm
 from .models import Category, Product
@@ -78,3 +79,25 @@ class ProductCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['model_name'] = 'product'
         return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'shop/category_detail.html'
+    context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = self.object.products.filter(is_active=True)
+
+        context['min_price'] = products.aggregate(Min('price'))['price__min']
+        context['max_price'] = products.aggregate(Max('price'))['price__max']
+        context['avg_price'] = products.aggregate(Avg('price'))['price__avg']
+        context['avg_qty'] = products.aggregate(Avg('product_qty'))['product_qty__avg']
+        return context
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'shop/product_detail.html'
+    context_object_name = 'product'
