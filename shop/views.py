@@ -1,7 +1,7 @@
 from django.db.models import Min, Max, Avg
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from .forms import ProductForm, CategoryForm
 from .models import Category, Product
@@ -135,4 +135,28 @@ class ProductUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['model_name'] = 'product'
         context['action'] = 'Update'
+        return context
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'shop/form_delete.html'
+    context_object_name = 'category'
+    success_url = reverse_lazy('category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'category'
+        return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'shop/form_delete.html'
+    context_object_name = 'product'
+    success_url = reverse_lazy('product_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'product'
         return context

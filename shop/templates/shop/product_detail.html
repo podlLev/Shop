@@ -85,9 +85,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-auto d-flex gap-2">
-                        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary product-btn fw-bold px-4 py-2">Back</a>
-                        <a href="{% url 'product_update' product.pk %}" class="btn btn-primary product-btn fw-bold px-4 py-2">Edit</a>
+                    <div class="mt-auto d-flex justify-content-center gap-2">
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary product-btn fw-bold px-4 py-2">Back to Products</a>
+                        <a href="{% url 'product_update' product.pk %}" class="btn btn-primary product-btn fw-bold px-4 py-2">Edit Product</a>
+                        <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger product-btn fw-bold px-4 py-2">Delete Product</a>
                     </div>
                 </div>
             </div>
