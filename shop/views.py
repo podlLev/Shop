@@ -11,6 +11,7 @@ class CategoryListView(ListView):
     template_name = 'shop/categories.html'
     context_object_name = 'categories'
     ordering = ['title']
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,6 +24,7 @@ class ProductListView(ListView):
     template_name = 'shop/products.html'
     context_object_name = 'products'
     ordering = ['-created_at']
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,6 +38,7 @@ class ProductListByCategoryView(ListView):
     model = Product
     template_name = 'shop/products.html'
     context_object_name = 'products'
+    paginate_by = 8
 
     def get_queryset(self):
         slug = self.kwargs.get('slug')
