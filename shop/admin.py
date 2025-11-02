@@ -18,11 +18,12 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'product_qty', 'category_link', 'is_active', 'created_at',)
+    list_display = ('title', 'price', 'product_qty', 'category_link', 'slug', 'is_active', 'created_at',)
     list_display_links = ('title',)
-    search_fields = ('title', 'category__title', 'price', 'product_qty',)
+    search_fields = ('title', 'category__title', 'price', 'slug', 'product_qty',)
+    prepopulated_fields = {'slug': ('title',),}
     list_filter = ('title', 'is_active', 'created_at',)
-    list_editable = ('price', 'product_qty', 'is_active',)
+    list_editable = ('price', 'product_qty', 'slug', 'is_active',)
     ordering = ('-created_at',)
 
     def category_link(self, obj):
