@@ -1,10 +1,11 @@
 from django.db.models import Min, Max, Avg
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
 from .forms import ProductForm, CategoryForm
 from .models import Category, Product
+
 
 def index(request):
     return render(request, 'shop/index.html')
@@ -60,24 +61,26 @@ class ProductListByCategoryView(ListView):
 class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryForm
-    template_name = 'shop/create_form.html'
+    template_name = 'shop/form.html'
     success_url = reverse_lazy('category_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['model_name'] = 'category'
+        context['action'] = 'Add'
         return context
 
 
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'shop/create_form.html'
+    template_name = 'shop/form.html'
     success_url = reverse_lazy('product_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['model_name'] = 'product'
+        context['action'] = 'Add'
         return context
 
 
@@ -101,3 +104,35 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'shop/product_detail.html'
     context_object_name = 'product'
+
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'shop/form.html'
+    context_object_name = 'category'
+
+    def get_success_url(self):
+        return reverse_lazy('category_detail', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'category'
+        context['action'] = 'Update'
+        return context
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'shop/form.html'
+    context_object_name = 'product'
+
+    def get_success_url(self):
+        return reverse_lazy('product_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['model_name'] = 'product'
+        context['action'] = 'Update'
+        return context

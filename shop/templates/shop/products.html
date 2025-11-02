@@ -42,7 +42,7 @@
                 <div class="d-flex justify-content-center mb-2">
                     <span class="fw-bold text-success fs-5">{{ product.price }} ₴</span>
                 </div>
-                <a href="{% url 'product_detail' product.pk %}"
+                <a href="{{ product.get_absolute_url }}"
                    class="btn btn-primary btn-sm fw-bold mt-auto text-uppercase text-white">
                     View Product
                 </a>

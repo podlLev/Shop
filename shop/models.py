@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator
 
@@ -15,6 +16,9 @@ class Category(models.Model):
 
     def active_products_count(self):
         return self.products.filter(is_active=True).count()
+
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Категорія'
@@ -48,6 +52,9 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Товар'

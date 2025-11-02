@@ -28,7 +28,7 @@
                         Products: {{ category.active_products_count }}
                     </p>
 
-                    <a href="{% url 'category_detail' category.slug %}"
+                    <a href="{{ category.get_absolute_url }}"
                        class="btn btn-outline-primary btn-sm fw-bold mt-auto text-uppercase">
                         View Info
                     </a>

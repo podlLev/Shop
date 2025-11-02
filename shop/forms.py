@@ -20,7 +20,10 @@ class CategoryForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
-        if Category.objects.filter(title__iexact=title).exists():
+        qs = Category.objects.filter(title__iexact=title)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
             raise forms.ValidationError("A category with this title already exists.")
         return title
 
@@ -64,6 +67,9 @@ class ProductForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
-        if Product.objects.filter(title__iexact=title).exists():
+        qs = Product.objects.filter(title__iexact=title)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
             raise forms.ValidationError("A product with this title already exists.")
         return title

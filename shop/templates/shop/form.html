@@ -1,11 +1,11 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}Add {{ model_name|capfirst }} | My Shop{% endblock %}
+{% block title %}{{ action }} {{ model_name|capfirst }} | My Shop{% endblock %}
 
 {% block content %}
 <h1 class="text-center mt-3 mb-5 fw-bold text-dark">
-    Add {{ model_name|capfirst }}
+    {{ action }} {{ model_name|capfirst }}
 </h1>
 
 <div class="row justify-content-center">
@@ -58,7 +58,10 @@
                     {% endif %}
 
                     <div class="d-flex justify-content-between mt-4">
-                        <a href="{% url model_name|add:'_list' %}" class="btn btn-outline-secondary fw-bold px-4">Back</a>
+                        <a href="{% if object.pk %}{{ object.get_absolute_url }}{% else %}{% url model_name|add:'_list' %}{% endif %}"
+                           class="btn btn-outline-secondary fw-bold px-4">
+                            Back
+                        </a>
                         <button type="submit" class="btn btn-primary fw-bold px-4 text-uppercase shadow-sm">
                             Save {{ model_name|capfirst }}
                         </button>
