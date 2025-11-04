@@ -87,8 +87,10 @@
 
                     <div class="mt-auto d-flex justify-content-center gap-2">
                         <a href="{% url 'product_list' %}" class="btn btn-outline-secondary product-btn fw-bold px-4 py-2">Back to Products</a>
-                        <a href="{% url 'product_update' product.slug %}" class="btn btn-primary product-btn fw-bold px-4 py-2">Edit Product</a>
-                        <a href="{% url 'product_delete' product.slug %}" class="btn btn-danger product-btn fw-bold px-4 py-2">Delete Product</a>
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a href="{% url 'product_update' product.slug %}" class="btn btn-primary product-btn fw-bold px-4 py-2">Edit Product</a>
+                            <a href="{% url 'product_delete' product.slug %}" class="btn btn-danger product-btn fw-bold px-4 py-2">Delete Product</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

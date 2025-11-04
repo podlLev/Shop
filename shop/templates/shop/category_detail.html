@@ -53,12 +53,14 @@
             <a href="{% url 'category_list' %}" class="btn btn-outline-secondary btn-lg category-btn">
                 Back to Categories
             </a>
-            <a href="{% url 'category_update' category.slug %}" class="btn btn-primary btn-lg category-btn ms-4">
-                Update Category
-            </a>
-            <a href="{% url 'category_delete' category.slug %}" class="btn btn-danger btn-lg category-btn ms-4">
-                Delete Category
-            </a>
+            {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'category_update' category.slug %}" class="btn btn-primary btn-lg category-btn ms-4">
+                    Update Category
+                </a>
+                <a href="{% url 'category_delete' category.slug %}" class="btn btn-danger btn-lg category-btn ms-4">
+                    Delete Category
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Min, Max, Avg
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from .forms import ProductForm, CategoryForm
@@ -58,7 +59,7 @@ class ProductListByCategoryView(ListView):
         return context
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'shop/form.html'
@@ -70,8 +71,14 @@ class CategoryCreateView(CreateView):
         context['action'] = 'Add'
         return context
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class ProductCreateView(CreateView):
+    def handle_no_permission(self):
+        return redirect('category_list')
+
+
+class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'shop/form.html'
@@ -82,6 +89,12 @@ class ProductCreateView(CreateView):
         context['model_name'] = 'product'
         context['action'] = 'Add'
         return context
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('product_list')
 
 
 class CategoryDetailView(DetailView):
@@ -106,7 +119,7 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'shop/form.html'
@@ -121,8 +134,15 @@ class CategoryUpdateView(UpdateView):
         context['action'] = 'Update'
         return context
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class ProductUpdateView(UpdateView):
+    def handle_no_permission(self):
+        category = self.get_object()
+        return redirect(reverse('category_detail', kwargs={'slug': category.slug}))
+
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'shop/form.html'
@@ -137,8 +157,15 @@ class ProductUpdateView(UpdateView):
         context['action'] = 'Update'
         return context
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class CategoryDeleteView(DeleteView):
+    def handle_no_permission(self):
+        product = self.get_object()
+        return redirect(reverse('product_detail', kwargs={'slug': product.slug}))
+
+
+class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'shop/form_delete.html'
     context_object_name = 'category'
@@ -149,8 +176,15 @@ class CategoryDeleteView(DeleteView):
         context['model_name'] = 'category'
         return context
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class ProductDeleteView(DeleteView):
+    def handle_no_permission(self):
+        category = self.get_object()
+        return redirect(reverse('category_detail', kwargs={'slug': category.slug}))
+
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'shop/form_delete.html'
     context_object_name = 'product'
@@ -160,3 +194,10 @@ class ProductDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['model_name'] = 'product'
         return context
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        product = self.get_object()
+        return redirect(reverse('product_detail', kwargs={'slug': product.slug}))
