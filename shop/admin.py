@@ -26,8 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('price', 'product_qty', 'slug', 'is_active',)
     ordering = ('-created_at',)
 
+    @admin.display(description='Category')
     def category_link(self, obj):
         url = reverse('admin:shop_category_change', args=[obj.category.id])
         return mark_safe(f'<a href="{url}">{obj.category.title}</a>')
-
-    category_link.short_description = 'Category'
