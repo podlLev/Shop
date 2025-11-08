@@ -66,6 +66,18 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+.navbar-nav .nav-link.nav-btn-light {
+    background-color: #fff5d7 !important;
+    color: #000 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link.nav-btn-light:hover {
+    background-color: #ffeaa7 !important;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
 .navbar-toggler {
     border: none;
     outline: none;

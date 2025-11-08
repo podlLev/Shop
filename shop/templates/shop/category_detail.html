@@ -51,13 +51,16 @@
 
         <div class="text-center mt-4">
             <a href="{% url 'category_list' %}" class="btn btn-outline-secondary btn-lg category-btn">
+                <i class="bi bi-arrow-left me-2"></i>
                 Back to Categories
             </a>
             {% if user.is_authenticated and user.is_staff %}
                 <a href="{% url 'category_update' category.slug %}" class="btn btn-primary btn-lg category-btn ms-4">
+                    <i class="bi bi-pencil-square me-2"></i>
                     Update Category
                 </a>
                 <a href="{% url 'category_delete' category.slug %}" class="btn btn-danger btn-lg category-btn ms-4">
+                    <i class="bi bi-trash me-2"></i>
                     Delete Category
                 </a>
             {% endif %}

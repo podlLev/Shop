@@ -80,13 +80,24 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_form'] = UserUpdateForm(instance=self.request.user)
+        if self.request.method == 'POST':
+            context['user_form'] = UserUpdateForm(self.request.POST, instance=self.request.user)
+        else:
+            context['user_form'] = UserUpdateForm(instance=self.request.user)
         context['profile_form'] = context.pop('form', None)
         return context
 
-    def form_valid(self, form):
-        user_form = UserUpdateForm(self.request.POST, instance=self.request.user)
-        if user_form.is_valid():
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = self.get_form()
+
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            messages.success(self.request, 'Your profile has been updated!')
-        return super().form_valid(form)
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return self.form_valid(profile_form)
+        else:
+            context = self.get_context_data(form=profile_form)
+            context['user_form'] = user_form
+            return self.render_to_response(context)

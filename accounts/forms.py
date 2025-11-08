@@ -70,9 +70,27 @@ class UserUpdateForm(forms.ModelForm):
         })
     )
 
+    first_name = forms.CharField(
+        required=False,
+        label="First name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your first name',
+            'class': 'form-control'
+        })
+    )
+
+    last_name = forms.CharField(
+        required=False,
+        label="Last name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your last name',
+            'class': 'form-control'
+        })
+    )
+
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
         widgets = {
             'username': forms.TextInput(attrs={
                 'placeholder': 'Enter your username',
