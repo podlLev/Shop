@@ -3,12 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.forms import ModelForm
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
+from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import UpdateView, FormView
 
@@ -41,14 +42,23 @@ class RegisterView(FormView):
         )
 
         subject = 'Activate your account'
-        message = render_to_string('accounts/activation_email.html', {
+        html_message = render_to_string('accounts/activation_email.html', {
             'user': user,
             'activate_url': activate_url,
         })
 
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
-        messages.success(self.request, 'Account created! Please check your email to activate your account.')
+        plain_message = strip_tags(html_message)
 
+        email = EmailMultiAlternatives(
+            subject,
+            plain_message,
+            settings.EMAIL_HOST_USER,
+            [user.email]
+        )
+        email.attach_alternative(html_message, "text/html")
+        email.send()
+
+        messages.success(self.request, 'Account created! Please check your email to activate your account.')
         return super().form_valid(form)
 
 
