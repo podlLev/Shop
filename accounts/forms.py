@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from phonenumber_field.formfields import PhoneNumberField
 
 from accounts.models import Profile
 
@@ -107,12 +108,23 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    phone = PhoneNumberField(
+        required=False,
+        error_messages={
+            'invalid': 'Enter a valid Ukrainian phone number (e.g. +380 67123 45 67).'
+        },
+        widget=forms.TextInput(attrs={
+            'placeholder': '+380XXXXXXXXX',
+            'class': 'form-control'
+        })
+    )
+
     class Meta:
         model = Profile
         fields = ['avatar', 'bio', 'location', 'phone', 'birth_date']
         widgets = {
             'avatar': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file'
+                'class': 'form-control'
             }),
             'bio': forms.Textarea(attrs={
                 'rows': 3,
@@ -121,10 +133,6 @@ class ProfileUpdateForm(forms.ModelForm):
             }),
             'location': forms.TextInput(attrs={
                 'placeholder': 'City, Country',
-                'class': 'form-control'
-            }),
-            'phone': forms.TextInput(attrs={
-                'placeholder': '+123456789',
                 'class': 'form-control'
             }),
             'birth_date': forms.DateInput(attrs={
