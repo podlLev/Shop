@@ -44,12 +44,17 @@ INSTALLED_APPS = [
 
     'phonenumber_field',
     'rest_framework',
+    'django_filters',
 
     'shop',
     'blog',
     'accounts',
     'api',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
