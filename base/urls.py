@@ -27,6 +27,7 @@ urlpatterns = [
     path('shop/', include('shop.urls')),
     path('blog/', include('blog.urls')),
     path('accounts/', include('accounts.urls')),
+    path('api/', include('api.urls')),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
 ]
