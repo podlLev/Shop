@@ -1,0 +1,142 @@
+body {
+    font-family: 'Playfair Display', serif;
+    background-color: #fff5d7;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.page-wrapper {
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.header_area {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #feb300;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.main_menu .navbar {
+    padding: 0.8rem 0;
+}
+
+.navbar-brand.logo_h img {
+    height: 75px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand.logo_h img:hover {
+    transform: scale(1.1);
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 1rem;
+}
+
+.navbar-nav .nav-link {
+    color: #000000;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease, background 0.3s ease;
+    padding: 0.6rem 1.3rem !important;
+    border-radius: 6px;
+    display: inline-block;
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    background-color: #fff5d7;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+    background-color: #0d6efd;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+}
+
+.navbar-toggler .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 4px 0;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.bg-pink {
+    background-color: #ffaaab !important;
+}
+
+.scale-on-hover {
+    transition: transform 0.3s ease;
+}
+
+.scale-on-hover:hover {
+    transform: scale(1.1);
+}
+
+footer {
+    height: 100px;
+    background-color: #f5a927;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 40px 0;
+}
+
+footer p {
+    color: #000000;
+    margin: 0;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+footer p:hover {
+    color: #0d6efd;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav .nav-item {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.5rem 0.8rem;
+    }
+
+    .navbar-toggler {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .search_input form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #search_input {
+        width: 100%;
+    }
+}

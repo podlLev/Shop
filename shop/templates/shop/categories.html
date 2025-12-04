@@ -1,0 +1,37 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} | My Shop{% endblock %}
+
+{% block content %}
+<h1 class="text-center mt-2 mb-5 fw-bold text-dark">{{ page_title }}</h1>
+
+<div class="row g-4">
+    {% for category in categories %}
+    <div class="col-md-4 col-lg-3 mb-4">
+        <div class="card h-100 shadow rounded-4 bg-light scale-on-hover border-0">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <h5 class="card-title text-dark fw-bold">{{ category.title }}</h5>
+
+                {% if category.description %}
+                <p class="card-text text-muted">{{ category.description|truncatechars:130 }}</p>
+                {% endif %}
+
+                <p class="text-success fw-bold mb-3 fs-5">
+                    Products: {{ category.active_products_count }}
+                </p>
+
+                <a href="{% url 'product_list_by_category' category.slug %}"
+                   class="btn btn-primary btn-sm fw-bold mt-auto text-uppercase text-white">
+                    View Products
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <div class="alert alert-warning">No categories found.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
