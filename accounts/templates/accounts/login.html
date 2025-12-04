@@ -1,0 +1,74 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Login | Accounts{% endblock %}
+
+{% block content %}
+<h1 class="text-center mt-3 mb-5 fw-bold text-dark">
+    Login to Your Account
+</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg rounded-4 border-0 bg-light">
+            <div class="card-body p-5 pb-2">
+
+                {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}
+                             alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold fs-5 text-dark text-capitalize">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="#" class="text-decoration-none small text-muted fs-6">
+                            Forgot password?
+                        </a>
+                        <button type="submit" class="btn btn-primary fw-bold px-4 text-uppercase shadow-sm">
+                            Login
+                            <i class="bi bi-box-arrow-in-right ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <hr class="my-4">
+                <p class="text-center text-muted">
+                    Don’t have an account?
+                    <a href="{% url 'register' %}" class="fw-semibold text-primary text-decoration-none">
+                        Register here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

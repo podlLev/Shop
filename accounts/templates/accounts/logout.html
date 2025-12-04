@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Logged Out | Accounts{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card shadow-lg rounded-4 border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body p-5">
+
+            <h1 class="fw-bold text-dark mb-4">You’ve been logged out</h1>
+            <p class="fs-5 text-muted mb-5">
+                Thank you for visiting <span class="fw-semibold text-dark">Sk8e-Staff</span>.
+                You can log back in or continue browsing as a guest.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'login' %}" class="btn btn-primary fw-bold px-4 text-uppercase shadow-sm">
+                    Log In Again
+                </a>
+                <a href="{% url 'shop_home' %}" class="btn btn-outline-secondary fw-bold px-4 text-uppercase shadow-sm">
+                    Back to Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
