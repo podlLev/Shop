@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator
 
@@ -16,6 +17,9 @@ class Category(models.Model):
     def active_products_count(self):
         return self.products.filter(is_active=True).count()
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
+
     class Meta:
         verbose_name = 'Категорія'
         verbose_name_plural = 'Категорії'
@@ -26,7 +30,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(
         max_digits=10,
@@ -39,9 +43,24 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name='products'
     )
+    image = models.ImageField(
+        upload_to='products/',
+        blank=True,
+        null=True,
+        verbose_name='Product Image'
+    )
+    slug = models.SlugField(unique=True, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Товар'

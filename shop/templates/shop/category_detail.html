@@ -1,0 +1,67 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.title }} | My Shop{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/category.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="category-card shadow-lg border-0 p-4">
+        <div class="text-center mb-4">
+            <h1 class="category-title">{{ category.title }}</h1>
+        </div>
+
+        {% if category.description %}
+        <div class="mb-4">
+            <p class="category-description ps-4 pe-4">{{ category.description }}</p>
+        </div>
+        {% endif %}
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between param-card mb-2">
+                    <span class="param-label">Active Products:</span>
+                    <span class="badge bg-success rounded-pill active-products-badge">
+                        {{ category.active_products_count }}
+                    </span>
+                </div>
+                {% if min_price and max_price %}
+                <div class="d-flex justify-content-between param-card mb-2">
+                    <span class="param-label">Price Range:</span>
+                    <span class="param-value">{{ min_price }} ₴ – {{ max_price }} ₴</span>
+                </div>
+                <div class="d-flex justify-content-between param-card mb-2">
+                    <span class="param-label">Average Price:</span>
+                    <span class="param-value">{{ avg_price|floatformat:2 }} ₴</span>
+                </div>
+                <div class="d-flex justify-content-between param-card mb-2">
+                    <span class="param-label">Average Quantity:</span>
+                    <span class="param-value">{{ avg_qty|floatformat:1 }}</span>
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-between param-card mb-2">
+                    <span class="param-label">Created At:</span>
+                    <span class="param-value">{{ category.created_at|date:"d M Y H:i" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'category_list' %}" class="btn btn-outline-secondary btn-lg category-btn">
+                Back to Categories
+            </a>
+            {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'category_update' category.slug %}" class="btn btn-primary btn-lg category-btn ms-4">
+                    Update Category
+                </a>
+                <a href="{% url 'category_delete' category.slug %}" class="btn btn-danger btn-lg category-btn ms-4">
+                    Delete Category
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

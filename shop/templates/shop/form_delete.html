@@ -1,0 +1,24 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Delete {{ model_name|capfirst }} | My Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-5 rounded-4" style="max-width: 600px; width: 100%;">
+        <div class="card-body text-center">
+            <h2 class="card-title text-danger mb-4">Delete {{ model_name|capfirst }}</h2>
+            <p class="card-text mb-4 fs-5">
+                Are you sure you want to delete "<strong>{{ object }}</strong>"?
+            </p>
+
+            <form method="POST" class="d-flex justify-content-center gap-3">
+                {% csrf_token %}
+                <a href="{{ object.get_absolute_url }}" class="btn btn-secondary btn-lg px-5 fw-bold">Cancel</a>
+                <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold">
+                    Delete {{ model_name|capfirst }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,29 +4,39 @@
 {% block title %}{{ page_title }} | My Shop{% endblock %}
 
 {% block content %}
-<h1 class="text-center mt-2 mb-5 fw-bold text-dark">{{ page_title }}</h1>
+<h1 class="text-center mt-2 mb-3 fw-bold text-dark">{{ page_title }}</h1>
+
+{% if user.is_authenticated and user.is_staff %}
+    <div class="mb-4">
+        <a href="{% url 'category_create' %}" class="btn btn-success fw-bold px-4 py-2 text-uppercase shadow-sm">
+            <i class="fa fa-plus me-2"></i> Add Category
+        </a>
+    </div>
+{% endif %}
 
 <div class="row g-4">
     {% for category in categories %}
     <div class="col-md-4 col-lg-3 mb-4">
-        <div class="card h-100 shadow rounded-4 bg-light scale-on-hover border-0">
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-                <h5 class="card-title text-dark fw-bold">{{ category.title }}</h5>
+        <a href="{% url 'product_list_by_category' category.slug %}" class="text-decoration-none">
+            <div class="card h-100 shadow rounded-4 bg-light scale-on-hover border-0">
+                <div class="card-body text-center d-flex flex-column justify-content-between">
+                    <h5 class="card-title text-dark fw-bold">{{ category.title }}</h5>
 
-                {% if category.description %}
-                <p class="card-text text-muted">{{ category.description|truncatechars:130 }}</p>
-                {% endif %}
+                    {% if category.description %}
+                    <p class="card-text text-muted">{{ category.description|truncatechars:130 }}</p>
+                    {% endif %}
 
-                <p class="text-success fw-bold mb-3 fs-5">
-                    Products: {{ category.active_products_count }}
-                </p>
+                    <p class="text-success fw-bold mb-3 fs-5">
+                        Products: {{ category.active_products_count }}
+                    </p>
 
-                <a href="{% url 'product_list_by_category' category.slug %}"
-                   class="btn btn-primary btn-sm fw-bold mt-auto text-uppercase text-white">
-                    View Products
-                </a>
+                    <a href="{{ category.get_absolute_url }}"
+                       class="btn btn-outline-primary btn-sm fw-bold mt-auto text-uppercase">
+                        View Info
+                    </a>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     {% empty %}
     <div class="col-12 text-center">

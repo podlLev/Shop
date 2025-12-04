@@ -4,7 +4,15 @@
 {% block title %}{{ page_title }} | My Shop{% endblock %}
 
 {% block content %}
-<h1 class="text-center mt-2 mb-5 fw-bold text-dark">{{ page_title }}</h1>
+<h1 class="text-center mt-2 mb-3 fw-bold text-dark">{{ page_title }}</h1>
+
+{% if user.is_authenticated and user.is_staff %}
+    <div class="mb-4">
+        <a href="{% url 'product_create' %}" class="btn btn-success fw-bold px-4 py-2 text-uppercase shadow-sm">
+            <i class="bi bi-bag-plus me-2"></i> Add Product
+        </a>
+    </div>
+{% endif %}
 
 <div class="row g-4">
     {% for product in products %}
@@ -18,13 +26,25 @@
                     </div>
                 {% endif %}
 
+                {% if product.image %}
+                    <img src="{{ product.image.url }}"
+                         class="card-img-top rounded-top-4 mb-2"
+                         alt="{{ product.title }}"
+                         style="height: 200px; object-fit: contain;">
+                {% else %}
+                    <img src="{% static 'shop/images/no-image.png' %}"
+                         class="card-img-top rounded-top-4 mb-2"
+                         alt="No image"
+                         style="height: 200px; object-fit: contain;">
+                {% endif %}
+
                 <h5 class="card-title fw-bold text-dark mb-2 text-center">{{ product.title }}</h5>
 
                 <p class="card-text text-muted mb-3">{{ product.description|truncatechars:100 }}</p>
                 <div class="d-flex justify-content-center mb-2">
                     <span class="fw-bold text-success fs-5">{{ product.price }} ₴</span>
                 </div>
-                <a href="#"
+                <a href="{{ product.get_absolute_url }}"
                    class="btn btn-primary btn-sm fw-bold mt-auto text-uppercase text-white">
                     View Product
                 </a>
