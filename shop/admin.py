@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from accounts.admin import custom_admin
 from .models import Category, Product
 
 
-@admin.register(Category)
+@admin.register(Category, site=custom_admin)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'created_at',)
     list_display_links = ('title',)
@@ -16,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ('title',)
 
 
-@admin.register(Product)
+@admin.register(Product, site=custom_admin)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'product_qty', 'category_link', 'slug', 'is_active', 'created_at',)
     list_display_links = ('title',)
